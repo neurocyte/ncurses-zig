@@ -1,0 +1,97 @@
+#!/bin/bash
+set -e
+
+cd "$(dirname "$0")/.."
+LIBDIR="$(pwd)"
+TARGET=${1:-x86_64-linux-musl}
+PREFIX="$LIBDIR/ncurses-zig"
+SOURCE="$LIBDIR/ncurses"
+export CC="zig cc --target=$TARGET"
+export CXX="zig c++ --target=$TARGET"
+
+REV="$(git --git-dir "$PREFIX/.git" rev-parse origin/master)"
+
+rm -rf "$SOURCE"
+git clone --depth 1 https://github.com/mirror/ncurses.git "$SOURCE"
+
+cd "$PREFIX"
+ls | while read n ; do if [ -d $n ] ; then rm -r $n ; fi ; done
+
+cd "$SOURCE"
+git reset --hard "$REV"
+
+if [ -d "$PREFIX/include" ] ; then rm -r "$PREFIX/include" ; fi
+
+./configure \
+    --prefix="$PREFIX" \
+    --includedir="$PREFIX/include" \
+    --disable-stripping \
+    --without-ada \
+    --without-cxx \
+    --without-cxx-binding \
+    --without-manpages \
+    --without-progs \
+    --without-tack \
+    --without-tests \
+    --without-dlsym
+
+make -j "$(nproc)"
+make install
+
+# no symlink support in zig packages
+rm "$PREFIX/include/ncurses/ncurses.h"
+cp "$PREFIX/include/ncurses/curses.h" "$PREFIX/include/ncurses/ncurses.h"
+
+# many packages expect these headers in the root
+cp "$PREFIX/include/ncurses/curses.h" "$PREFIX/include/curses.h"
+cp "$PREFIX/include/ncurses/ncurses.h" "$PREFIX/include/ncurses.h"
+cp "$PREFIX/include/ncurses/term.h" "$PREFIX/include/term.h"
+
+(
+    echo 'pub const source_files = [_][]const u8{'
+    find . -name '*.o' -print0 | xargs -0 -I{} basename -a -s .o {} | sort -u | while read -r fn; do
+        find . -name "${fn}.c" | sed 's|^./||' | xargs -I{} echo {}
+    done | sort -u | while read -r fn; do
+        echo "    \"${fn}\","
+        cp --parents "${fn}" "$PREFIX"
+    done
+    echo '};'
+    echo
+    echo 'pub const header_files = [_][]const u8{'
+    find "$PREFIX/include" -type f | sort -u | while read -r fn ; do
+        echo "    \"${fn#"$PREFIX/include/"}\","
+    done
+    echo '};'
+) > "$PREFIX/ncurses.sources.zig"
+
+mkdir "${PREFIX}/install"
+mv "${PREFIX}/include" "${PREFIX}/install"
+mkdir "${PREFIX}/include"
+
+find . -name '*.h' | while read -r fn; do
+    if [ -d "${PREFIX}/$(dirname "${fn}")" ] ; then
+        cp -v --parents "${fn}" "$PREFIX"
+    fi
+done
+
+grep -v '^#define TERMINFO' < include/ncurses_cfg.h > "$PREFIX/include/ncurses_cfg.h"
+
+cp -v --parents \
+    include/capdefaults.c \
+    ncurses/codes.c \
+    ncurses/comp_captab.c \
+    ncurses/comp_userdefs.c \
+    ncurses/expanded.c \
+    ncurses/fallback.c \
+    ncurses/lib_gen.c \
+    ncurses/lib_keyname.c \
+    ncurses/names.c \
+    ncurses/unctrl.c \
+    "$PREFIX"
+
+cd "$LIBDIR"
+rm -r "${PREFIX:?}/bin"
+rm -r "${PREFIX:?}/lib"
+rm -r "${PREFIX:?}/share"
+
+# rm -rf "$SOURCE"
