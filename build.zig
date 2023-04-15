@@ -24,7 +24,7 @@ pub fn build(b: *std.build.Builder) void {
     lib.addIncludePath("ncurses");
     addSources(lib);
 
-    lib.install();
+    b.installArtifact(lib);
     installHeaders(lib, b);
 }
 
