@@ -67,6 +67,7 @@
 #define HAVE_STDINT_H 1
 #define HAVE_UNISTD_H 1
 #define HAVE_DIRENT_H 1
+#define TERMINFO "/usr/share/terminfo"
 #define HAVE_BIG_CORE 1
 #define PURE_TERMINFO 1
 #define USE_HOME_TERMINFO 1

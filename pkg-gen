@@ -74,7 +74,8 @@ find . -name '*.h' | while read -r fn; do
     fi
 done
 
-grep -v '^#define TERMINFO' < include/ncurses_cfg.h > "$PREFIX/include/ncurses_cfg.h"
+grep -v '^#define TERMINFO_DIRS' < include/ncurses_cfg.h > "$PREFIX/include/ncurses_cfg.h"
+sed -i 's|^#define TERMINFO .*$|#define TERMINFO "/usr/share/terminfo"|g' "$PREFIX/include/ncurses_cfg.h"
 
 cp -v --parents \
     include/capdefaults.c \
