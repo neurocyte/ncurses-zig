@@ -19,9 +19,9 @@ pub fn build(b: *std.build.Builder) void {
     });
     lib.linkLibC();
     lib.linkLibrary(gpm_dep.artifact("gpm"));
-    lib.addIncludePath("include");
-    // lib.addIncludePath("install/include");
-    lib.addIncludePath("ncurses");
+    lib.addIncludePath(.{ .path = "include" });
+    // lib.addIncludePath(.{ .path = "install/include" });
+    lib.addIncludePath(.{ .path = "ncurses" });
     addSources(lib);
 
     b.installArtifact(lib);
@@ -30,7 +30,7 @@ pub fn build(b: *std.build.Builder) void {
 
 fn addSources(self: *std.build.CompileStep) void {
     for (ncurses_sources.source_files) |file| {
-        self.addCSourceFile(file, &flags);
+        self.addCSourceFiles(&[_][]const u8{file}, &flags);
     }
 }
 

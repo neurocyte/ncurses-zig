@@ -4,8 +4,8 @@
 
     .dependencies = .{
         .gpm = .{
-            .url = "https://github.com/neurocyte/gpm-zig/archive/bd80d87da9ba621ac078d52f09bde1abb7f5bfee.tar.gz",
-            .hash = "1220c5cf4bb080dc360e8f77382143837d380579aff8d7016cd99cd2878a2a856d69",
+            .url = "https://github.com/neurocyte/gpm-zig/archive/eee0f21d1fbd3b607af8c8ccea62896b229b9f43.tar.gz",
+            .hash = "12207547dfc2d5c706058d3bb7b6081f717c6b9ec77a33a0bd7af1d019939f25b018",
         },
     },
 }
