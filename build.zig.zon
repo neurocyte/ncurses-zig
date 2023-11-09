@@ -1,11 +1,28 @@
 .{
     .name = "ncurses",
     .version = "6.4.0-9",
-
     .dependencies = .{
         .gpm = .{
-            .url = "https://github.com/neurocyte/gpm-zig/archive/259970b053a3a19ac1921e3acf2c34f0ed2c5605.tar.gz",
-            .hash = "1220d17560ac4dc1ee9b864be338b6be2684051c53d61cab57ea12e9fd90b1586f1a",
+            .url = "https://github.com/neurocyte/gpm-zig/archive/837b3a4c5f54d1bc642911edce3d5142ca805e91.tar.gz",
+            .hash = "1220812376fa483b25e0373cfd5c9db83b5931edfbcbaefe7b2a38450915809f5e7c",
         },
+    },
+    .paths = .{
+        "ANNOUNCE",
+        "AUTHORS",
+        "COPYING",
+        "NEWS",
+        "README",
+        "VERSION",
+        "build.zig",
+        "build.zig.zon",
+        "form",
+        "include",
+        "install",
+        "menu",
+        "ncurses",
+        "ncurses.sources.zig",
+        "panel",
+        "pkg-gen",
     },
 }

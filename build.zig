@@ -30,7 +30,7 @@ pub fn build(b: *std.build.Builder) void {
 
 fn addSources(self: *std.build.CompileStep) void {
     for (ncurses_sources.source_files) |file| {
-        self.addCSourceFiles(&[_][]const u8{file}, &flags);
+        self.addCSourceFiles(.{ .files = &[_][]const u8{file}, .flags = &flags });
     }
 }
 
