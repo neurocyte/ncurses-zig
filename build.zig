@@ -37,7 +37,7 @@ fn addSources(self: *std.Build.Step.Compile) void {
 fn installHeaders(self: *std.Build.Step.Compile, b: *std.Build) void {
     for (ncurses_sources.header_files) |file| {
         const path = std.fs.path.join(b.allocator, &.{ "install", "include", file }) catch unreachable;
-        self.installHeader(path, file);
+        self.installHeader(.{ .path = path }, file);
         b.allocator.free(path);
     }
 }
