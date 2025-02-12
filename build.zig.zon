@@ -3,8 +3,8 @@
     .version = "6.4.0-9",
     .dependencies = .{
         .gpm = .{
-            .url = "https://github.com/neurocyte/gpm-zig/archive/83c9013bf31ad6cde34889256687214cca06759a.tar.gz",
-            .hash = "1220f78de7693cd6c339dfb766ee82a975c8d3ae2c843c8ca3c8b2b38f442f6f4054",
+            .url = "https://github.com/neurocyte/gpm-zig/archive/65211c84e46cd867e38c0f3e1b77e29c1ca2518b.tar.gz",
+            .hash = "1220a498c84ac615b283c99eed5b679e4f6558e17d75b6373fa587595ef3d2c350be",
         },
     },
     .paths = .{
