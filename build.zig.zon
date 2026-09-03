@@ -1,12 +1,14 @@
 .{
-    .name = "ncurses",
+    .name = .ncurses,
     .version = "6.4.0-9",
+    .fingerprint = 0xbfb0fbf7e9df20ca,
     .dependencies = .{
         .gpm = .{
-            .url = "https://github.com/neurocyte/gpm-zig/archive/65211c84e46cd867e38c0f3e1b77e29c1ca2518b.tar.gz",
-            .hash = "1220a498c84ac615b283c99eed5b679e4f6558e17d75b6373fa587595ef3d2c350be",
+            .url = "https://github.com/eamonburns/gpm-zig/archive/e8b85cfb9e658847f2d4d64c0f30e5551531fc33.tar.gz",
+            .hash = "gpm-1.20.7-39-hqhTXcd8AQDC50i9rpR5MIKmML4E9ODEzfy1Hm7VlhFI",
         },
     },
+    .minimum_zig_version = "0.16.0",
     .paths = .{
         "ANNOUNCE",
         "AUTHORS",
